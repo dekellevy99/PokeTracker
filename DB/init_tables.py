@@ -25,7 +25,7 @@ def insert_pokemon_record(pokemon):
 
 def insert_type_record(type):
     with connection.cursor() as cursor:
-        query = f"""INSERT INTO Type VALUES("{type}")"""
+        query = f"""INSERT IGNORE INTO Type VALUES("{type}")"""
         cursor.execute(query)
         connection.commit()
 
@@ -42,7 +42,7 @@ def insert_trainer_record(trainer):
         trainer_name = trainer["name"]
         trainer_town = trainer["town"]
 
-        query = f"""INSERT INTO Trainer VALUES("{trainer_name}", "{trainer_town}")"""
+        query = f"""INSERT IGNORE INTO Trainer VALUES("{trainer_name}", "{trainer_town}")"""
         cursor.execute(query)
         connection.commit()
 
