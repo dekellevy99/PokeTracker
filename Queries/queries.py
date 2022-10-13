@@ -9,9 +9,6 @@ connection = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor
 )
 
-if connection.open:
-    print("the connection is opened")
-
 
 def get_heaviest_pokimon():
     try:
@@ -26,7 +23,7 @@ def get_heaviest_pokimon():
         print("error")
 
 
-def findByType(pokemonType):
+def find_by_type(pokemon_type):
     try:
         with connection.cursor() as cusor:
             query = f"""select pokemon.name
@@ -38,3 +35,27 @@ def findByType(pokemonType):
             return result
     except:
         print("error")
+
+
+def find_owners(pokemon_name):
+    with connection.cursor() as cursor:
+        query = f"""select T.name 
+                    from Pokemon P, Trainer T, PokemonTrainer PT
+                    where
+                        P.id = PT.pokemonId and
+                        T.name = PT.trainerName and 
+                        P.name = "{pokemon_name}";"""
+        cursor.execute(query)
+        result = [trainer["name"] for trainer in cursor.fetchall()]
+        return result
+
+def find_roster(trainer_name):
+    with connection.cursor() as cursor:
+        query = f"""select P.name 
+                    from Pokemon P, PokemonTrainer PT
+                    where
+                        P.id = PT.pokemonId and
+                        PT.trainerName = "{trainer_name}";"""
+        cursor.execute(query)
+        result = [pokemon["name"] for pokemon in cursor.fetchall()]
+        return result
