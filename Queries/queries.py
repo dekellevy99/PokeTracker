@@ -11,30 +11,23 @@ connection = pymysql.connect(
 
 
 def get_heaviest_pokimon():
-    try:
-        with connection.cursor() as cusor:
-            query = """select name
-                       from pokemon
-                       where weight = (select max(weight) from pokemon)"""
-            cusor.execute(query)
-            result = cusor.fetchone()["name"]
-            return result
-    except:
-        print("error")
+    with connection.cursor() as cursor:
+        query = """ SELECT name
+                    FROM Pokemon
+                    WHERE weight = (select max(weight) from pokemon)"""
+        cursor.execute(query)
+        result = cursor.fetchone()["name"]
+        return result
 
 
 def find_by_type(pokemon_type):
-    try:
-        with connection.cursor() as cusor:
-            query = f"""select pokemon.name
-                    from pokemon join pokemontype
-                    on pokemon.id = pokemontype.pokemonId
-                    where pokemontype.pokeType = "{pokemonType}";"""
-            cusor.execute(query)
-            result = [pokemon["name"] for pokemon in cusor.fetchall()]
-            return result
-    except:
-        print("error")
+    with connection.cursor() as cusor:
+        query = f"""SELECT P.name
+                    FROM Pokemon P join PokemonType PT on P.id = PT.pokemonId
+                    WHERE PT.pokeType = "{pokemon_type}";"""
+        cusor.execute(query)
+        result = [pokemon["name"] for pokemon in cusor.fetchall()]
+        return result
 
 
 def find_owners(pokemon_name):
