@@ -16,17 +16,17 @@ if connection.open:
 def get_heaviest_pokimon():
     try:
         with connection.cursor() as cusor:
-            query = "select max(weight) from pokemon;"
+            query = """select name
+                       from pokemon
+                       where weight = (select max(weight) from pokemon)"""
             cusor.execute(query)
-            return cusor.fetchall()
+            result = cusor.fetchone()["name"]
+            return result
     except:
         print("error")
 
 
 def findByType(pokemonType):
-    print(
-        f'select pokemon.name from pokemon join pokemontype on pokemon.id = pokemontype.pokemonId where pokemontype.pokeType = "{pokemonType}";')
-
     try:
         with connection.cursor() as cusor:
             query = f"""select pokemon.name
@@ -38,6 +38,3 @@ def findByType(pokemonType):
             return result
     except:
         print("error")
-
-
-print(findByType("grass"))
