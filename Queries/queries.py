@@ -41,3 +41,15 @@ def findByType(pokemonType):
 
 
 print(findByType("grass"))
+
+def find_owners(pokemon_name):
+    with connection.cursor() as cursor:
+        query = f"""select T.name 
+                    from Pokemon P, Trainer T, PokemonTrainer PT
+                    where
+                        P.id = PT.pokemonId and
+                        T.name = PT.trainerName and 
+                        P.name = "{pokemon_name}";"""
+        cursor.execute(query)
+        result = [trainer["name"] for trainer in cursor.fetchall()]
+        return result
