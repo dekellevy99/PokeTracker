@@ -64,3 +64,10 @@ def find_most_owned_pokemon():
         cursor.execute(query)
         result = [pokemon["name"] for pokemon in cursor.fetchall()]
         return result
+    
+def get_all_pokemon_names():
+    with connection.cursor() as cursor:
+        query = """ SELECT name FROM Pokemon;"""
+        cursor.execute(query)
+        result = [pokemon["name"] for pokemon in cursor.fetchall()]
+        return result
