@@ -78,3 +78,12 @@ def get_all_pokemon_types():
         cursor.execute(query)
         result = [type["pokeType"] for type in cursor.fetchall()]
         return result
+
+def get_pokemon_by_name(pokemon_name):
+    with connection.cursor() as cursor:
+        query = f"""SELECT *
+                    FROM Pokemon
+                    WHERE Pokemon.name = "{pokemon_name}";"""
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result
