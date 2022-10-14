@@ -49,6 +49,7 @@ def find_owners(pokemon_name):
         result = [trainer["name"] for trainer in cursor.fetchall()]
         return result
 
+
 def find_roster(trainer_name):
     with connection.cursor() as cursor:
         query = f"""select P.name 

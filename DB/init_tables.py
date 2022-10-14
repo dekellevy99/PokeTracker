@@ -73,7 +73,7 @@ def file_parsing():
         }
         insert_pokemon_record(pokemon_data)
         insert_type_record(pokemon["type"])
-        insert_pokemon_type_record(pokemon["id"], pokemon["type"])      
+        insert_pokemon_type_record(pokemon["id"], pokemon["type"])
         insert_trainers_records(pokemon["id"], pokemon["ownedBy"])
 
 

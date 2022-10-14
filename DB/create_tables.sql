@@ -1,3 +1,4 @@
+-- CREATE DATABASE poketrackerdb;
 use poketrackerdb;
 
 CREATE TABLE Trainer(
@@ -31,3 +32,5 @@ CREATE TABLE PokemonType(
     FOREIGN KEY(pokemonId) REFERENCES Pokemon(id),
     FOREIGN KEY(pokeType) REFERENCES Type(pokeType)  
 );
+
+
