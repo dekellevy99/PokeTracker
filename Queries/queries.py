@@ -87,3 +87,16 @@ def get_pokemon_by_name(pokemon_name):
         cursor.execute(query)
         result = cursor.fetchone()
         return result
+
+def insert_type_record(type):
+    with connection.cursor() as cursor:
+        query = f"""INSERT IGNORE INTO Type VALUES("{type}")"""
+        cursor.execute(query)
+        connection.commit()
+
+
+def insert_pokemon_type_record(pokemon_id, pokemon_type):
+    with connection.cursor() as cursor:
+        query = f"""INSERT INTO PokemonType VALUES({pokemon_id}, "{pokemon_type}")"""
+        cursor.execute(query)
+        connection.commit()
