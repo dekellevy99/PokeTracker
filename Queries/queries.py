@@ -65,3 +65,39 @@ def find_most_owned_pokemon():
         cursor.execute(query)
         result = [pokemon["name"] for pokemon in cursor.fetchall()]
         return result
+    
+def get_all_pokemon_names():
+    with connection.cursor() as cursor:
+        query = """ SELECT name FROM Pokemon;"""
+        cursor.execute(query)
+        result = [pokemon["name"] for pokemon in cursor.fetchall()]
+        return result
+
+def get_all_pokemon_types():
+    with connection.cursor() as cursor:
+        query = """ SELECT pokeType FROM Type;"""
+        cursor.execute(query)
+        result = [type["pokeType"] for type in cursor.fetchall()]
+        return result
+
+def get_pokemon_by_name(pokemon_name):
+    with connection.cursor() as cursor:
+        query = f"""SELECT *
+                    FROM Pokemon
+                    WHERE Pokemon.name = "{pokemon_name}";"""
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result
+
+def insert_type_record(type):
+    with connection.cursor() as cursor:
+        query = f"""INSERT IGNORE INTO Type VALUES("{type}")"""
+        cursor.execute(query)
+        connection.commit()
+
+
+def insert_pokemon_type_record(pokemon_id, pokemon_type):
+    with connection.cursor() as cursor:
+        query = f"""INSERT INTO PokemonType VALUES({pokemon_id}, "{pokemon_type}")"""
+        cursor.execute(query)
+        connection.commit()

@@ -1,15 +1,18 @@
 - get pokemons by trainer
 /trainer/{trainerName}/pokemons
 
-- get trainers of a pokemon
-/pokemons/{pokemonId}/trainers
-
 - add a new trainer
 /trainers
 
+- delete pokemon of a specific trainer
+delete trainer/{trainerName}/pokemon/{pokemonName}
+
+----------------------------------------------------------
+- get trainers of a pokemon
+/pokemons/{pokemonName}/trainers
+
+-get pokemon by name 
+/pokemons/{pokemonName}
+
 - get pokemon by type
 /pokemons?type={...}
-
-- delete pokemon of a specific trainer
-delete trainer/{trainerName}/pokemon/{pokemonId}
-
