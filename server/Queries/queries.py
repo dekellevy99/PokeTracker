@@ -54,6 +54,7 @@ def find_roster(trainer_name):
         result = [pokemon["name"] for pokemon in cursor.fetchall()]
         return result
 
+
 def find_most_owned_pokemon():
     with connection.cursor() as cursor:
         query = """ SELECT P.name, count(*)
@@ -65,7 +66,8 @@ def find_most_owned_pokemon():
         cursor.execute(query)
         result = [pokemon["name"] for pokemon in cursor.fetchall()]
         return result
-    
+
+
 def get_all_pokemon_names():
     with connection.cursor() as cursor:
         query = """ SELECT name FROM Pokemon;"""
@@ -73,12 +75,22 @@ def get_all_pokemon_names():
         result = [pokemon["name"] for pokemon in cursor.fetchall()]
         return result
 
+
 def get_all_pokemon_types():
     with connection.cursor() as cursor:
         query = """ SELECT pokeType FROM Type;"""
         cursor.execute(query)
         result = [type["pokeType"] for type in cursor.fetchall()]
         return result
+
+
+def get_all_trainers_names():
+    with connection.cursor() as cursor:
+        query = """ SELECT name FROM Trainer;"""
+        cursor.execute(query)
+        result = [trainer["name"] for trainer in cursor.fetchall()]
+        return result
+
 
 def get_pokemon_by_name(pokemon_name):
     with connection.cursor() as cursor:
@@ -88,6 +100,7 @@ def get_pokemon_by_name(pokemon_name):
         cursor.execute(query)
         result = cursor.fetchone()
         return result
+
 
 def insert_type_record(type):
     with connection.cursor() as cursor:
