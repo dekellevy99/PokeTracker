@@ -8,14 +8,14 @@ router = APIRouter()
 def get_trainers_of_pokemon(pokemon_name):
     pokemons_utils.validate_pokemon_name(pokemon_name)
     pokemon_owners = queries.find_owners(pokemon_name)
-    return pokemon_owners
+    return {"trainers": pokemon_owners}
 
 
 @router.get("/pokemons")
 def get_pokemons_by_type(type):
     pokemons_utils.validate_pokemon_type(type)
     pokemons = queries.find_by_type(type)
-    return pokemons
+    return {"pokemons": pokemons}
 
 
 @router.get("/pokemons/{pokemon_name}")
