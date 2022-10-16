@@ -51,6 +51,6 @@ async def delete_pokemon_from_trainer(trainer_name, pokemon_name, response: Resp
     response.status_code = status.HTTP_204_NO_CONTENT
 
 
-@router.put('/trainer/{trainer_name}/pokemon/{pokemon_id}', status_code=200)
-async def evolve_pokemon_for_trainer(trainer_name, pokemon_id):
-    trainers_utils.evolve_pokemon_for_trainer(trainer_name, pokemon_id)
+@router.put('/trainer/{trainer_name}/pokemon/{pokemon_name}', status_code=200)
+async def evolve_pokemon_for_trainer(trainer_name, pokemon_name):
+    trainers_utils.evolve_pokemon_for_trainer(trainer_name, pokemon_name)
