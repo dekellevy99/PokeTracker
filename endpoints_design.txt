@@ -1,11 +1,11 @@
 - get pokemons by trainer
-/trainer/{trainerName}/pokemons
+/trainers/{trainerName}/pokemons
 
 - add a new trainer
 /trainers
 
 - delete pokemon of a specific trainer
-delete trainer/{trainerName}/pokemon/{pokemonName}
+delete trainers/{trainerName}/pokemons/{pokemonName}
 
 ----------------------------------------------------------
 - get trainers of a pokemon
