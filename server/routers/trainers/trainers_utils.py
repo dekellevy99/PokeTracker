@@ -55,9 +55,9 @@ def get_pokemon_id_by_name(pokemon_name: string):
         return result
 
 
-def delete_pokemon_from_trainer(trainer_name: string, pokemon_id: string):
+def delete_pokemon_from_trainer(trainer_name: string, pokemon_id: int):
     with connection.cursor() as cursor:
-        query: string = f"""DELETE FROM pokemontrainer
+        query: string = f"""DELETE FROM PokemonTrainer
                             WHERE 
                             trainername = "{trainer_name}" AND pokemonId = {pokemon_id};"""
         cursor.execute(query)
@@ -71,9 +71,9 @@ def evolve_pokemon_for_trainer(trainer_name: string, pokemon_name: string):
     update_pokemon_for_evolved(trainer_name, pokemon_id, evolve_pokemon_id)
 
 
-def update_pokemon_for_evolved(trainer_name: string, pokemon_id: string, evolve_pokemon_id: string):
+def update_pokemon_for_evolved(trainer_name: string, pokemon_id: int, evolve_pokemon_id: int):
     with connection.cursor() as cursor:
-        query: string = f"""UPDATE Pokemontrainer
+        query: string = f"""UPDATE PokemonTrainer
                             SET pokemonId = {evolve_pokemon_id}
                             WHERE 
                             trainername = "{trainer_name}" AND pokemonId = {pokemon_id};"""
