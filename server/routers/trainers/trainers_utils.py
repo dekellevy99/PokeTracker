@@ -11,17 +11,6 @@ connection = pymysql.connect(
 )
 
 
-def query_trainers_pokemon(trainerName: string):
-    with connection.cursor() as cursor:
-        query: string = f"""SELECT Pokemon.id, Pokemon.name, Pokemon.height, Pokemon.weight
-                            FROM PokemonTrainer join Pokemon
-                            ON PokemonTrainer.pokemonId = Pokemon.id
-                            WHERE PokemonTrainer.trainerName = "{trainerName}";"""
-        cursor.execute(query)
-        result = cursor.fetchall()
-        return result
-
-
 def inser_new_trainer(name: string, town: string):
     with connection.cursor() as cursor:
         query: string = f"""INSERT INTO trainer (Name, Town)

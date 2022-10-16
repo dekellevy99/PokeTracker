@@ -1,15 +1,17 @@
 from unicodedata import name
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from fastapi import Request, Response
 from . import trainers_utils
 from pymysql.err import IntegrityError
+from Queries import queries
+
 router = APIRouter()
 
 
 @router.get('/trainer/{trainer_name}/pokemons', status_code=200)
-async def get_pokemon_of_trainers(trainer_name):
+async def get_pokemons_of_trainer(trainer_name):
     Response.headers["Content-Type"] = "application/json"
-    return {"pokemons": trainers_utils.query_trainers_pokemon(trainer_name)}
+    return {"pokemons": queries.find_roster(trainer_name)}
 
 
 @router.post('/trainers', status_code=201)
@@ -24,13 +26,13 @@ async def add_new_trainer(request: Request, response: Response):
             "town": req["town"]
         }
     except KeyError:
-        response.status_code = 400
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "error": "KeyError",
             "details": "json key should be 'name' and 'town'"
         }
     except IntegrityError:
-        response.status_code = 400
+        response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "error": "primery key already exists",
             "details": "json key should be 'name' and 'town'"
