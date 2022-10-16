@@ -1,5 +1,7 @@
 import string
 import pymysql
+from Queries import queries
+from fastapi import HTTPException, status
 
 connection = pymysql.connect(
     host="localhost",
@@ -10,8 +12,28 @@ connection = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor
 )
 
+def validate_trainer_name(trainer_name):
+    valid_trainers_names = queries.get_all_trainers_names()
+    if trainer_name not in valid_trainers_names:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "error": "invalid trainer name."
+            }
+        )
 
-def inser_new_trainer(name: string, town: string):
+def validate_pokemon_name(pokemon_name):
+    valid_pokemon_names = queries.get_all_pokemon_names()
+    if pokemon_name not in valid_pokemon_names:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "error": "invalid pokemon name."
+            }
+        )
+
+
+def insert_new_trainer(name: string, town: string):
     with connection.cursor() as cursor:
         query: string = f"""INSERT INTO trainer (Name, Town)
                             VALUES ('{name}', '{town}');"""
