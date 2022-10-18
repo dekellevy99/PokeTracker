@@ -1,4 +1,4 @@
--- CREATE DATABASE poketrackerdb;
+CREATE DATABASE poketrackerdb;
 use poketrackerdb;
 
 CREATE TABLE Trainer(
@@ -7,7 +7,7 @@ CREATE TABLE Trainer(
 );
 
 CREATE TABLE Pokemon(
-    id INT NOT NULL PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     height INT,
     weight INT
