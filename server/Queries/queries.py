@@ -113,3 +113,24 @@ def insert_pokemon_type_record(pokemon_id, pokemon_type):
         query = f"""INSERT IGNORE INTO PokemonType VALUES({pokemon_id}, "{pokemon_type}")"""
         cursor.execute(query)
         connection.commit()
+
+
+def get_pokemon_id_by_name(pokemon_name):
+    with connection.cursor() as cursor:
+        query = f"""SELECT id
+                    FROM Pokemon
+                    WHERE name = "{pokemon_name}";"""
+        cursor.execute(query)
+        result = cursor.fetchone()['id']
+        return result
+
+
+def insert_pokemon_record(pokemon):
+    with connection.cursor() as cursor:
+        pokemon_name = pokemon["name"]
+        pokemon_height = pokemon["height"]
+        pokemon_weight = pokemon["weight"]
+
+        query = f"""INSERT INTO Pokemon VALUES(null, "{pokemon_name}", {pokemon_height}, {pokemon_weight})"""
+        cursor.execute(query)
+        connection.commit()

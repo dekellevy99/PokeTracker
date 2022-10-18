@@ -25,12 +25,27 @@ def validate_pokemon_type(pokemon_type):
         )
 
 
-def get_pokemon_data(pokemon_name):
+def update_pokemon_type(pokemon_id, pokemon_name):
     data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
     pokemon_types = [pokemon_type["type"]["name"] for pokemon_type in data["types"]]
-    pokemon_data = queries.get_pokemon_by_name(pokemon_name)
-    pokemon_data["types"] = pokemon_types
     for type in pokemon_types:
         queries.insert_type_record(type)
-        queries.insert_pokemon_type_record(pokemon_data["id"], type)   
+        queries.insert_pokemon_type_record(pokemon_id, type)
+    return pokemon_types
+
+
+def get_pokemon_data(pokemon_name):
+    pokemon_data = queries.get_pokemon_by_name(pokemon_name)
+    pokemon_types = update_pokemon_type(pokemon_data["id"], pokemon_name)
+    pokemon_data["types"] = pokemon_types
     return pokemon_data
+
+
+def add_pokemon(pokemon_name):
+    data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
+    pokemon = {"name": pokemon_name, "height": data["height"], "weight": data["weight"]}
+    queries.insert_pokemon_record(pokemon)
+    pokemon["id"] = queries.get_pokemon_id_by_name(pokemon_name)
+    pokemon_types = update_pokemon_type(pokemon["id"], pokemon_name)
+    pokemon["types"] = pokemon_types
+    return pokemon
