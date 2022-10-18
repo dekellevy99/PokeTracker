@@ -16,3 +16,6 @@ delete trainers/{trainerName}/pokemons/{pokemonName}
 
 - get pokemon by type
 /pokemons?type={...}
+
+- add pokemon
+/pokemons/{pokemonName}
