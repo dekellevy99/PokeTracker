@@ -134,3 +134,28 @@ def insert_pokemon_record(pokemon):
         query = f"""INSERT INTO Pokemon VALUES(null, "{pokemon_name}", {pokemon_height}, {pokemon_weight})"""
         cursor.execute(query)
         connection.commit()
+
+
+def insert_trainer_record(name, town):
+    with connection.cursor() as cursor:
+        query = f"""INSERT INTO trainer (Name, Town)
+                    VALUES ('{name}', '{town}');"""
+        cursor.execute(query)
+        connection.commit()
+
+
+def evolve_pokemon_of_trainer(trainer_name, pokemon_id, evolve_pokemon_id)
+    with connection.cursor() as cursor:
+        query = f"""UPDATE PokemonTrainer
+                    SET pokemonId = {evolve_pokemon_id}
+                    WHERE trainername = "{trainer_name}" AND pokemonId = {pokemon_id};"""
+        cursor.execute(query)
+        connection.commit()
+
+
+def delete_pokemon_from_trainer(trainer_name, pokemon_id):
+    with connection.cursor() as cursor:
+        query = f"""DELETE FROM PokemonTrainer
+                    WHERE trainerName = "{trainer_name}" AND pokemonId = {pokemon_id};"""
+        cursor.execute(query)
+        connection.commit()
