@@ -46,10 +46,9 @@ def find_owners(pokemon_name):
 def find_roster(trainer_name):
     with connection.cursor() as cursor:
         query = f"""SELECT P.name 
-                    FROM Pokemon P, PokemonTrainer PT
-                    WHERE
-                        P.id = PT.pokemonId and
-                        PT.trainerName = "{trainer_name}";"""
+                    FROM Pokemon P JOIN PokemonTrainer PT
+                    ON P.id = PT.pokemonId
+                    WHERE PT.trainerName = "{trainer_name}";"""
         cursor.execute(query)
         result = [pokemon["name"] for pokemon in cursor.fetchall()]
         return result
@@ -111,6 +110,6 @@ def insert_type_record(type):
 
 def insert_pokemon_type_record(pokemon_id, pokemon_type):
     with connection.cursor() as cursor:
-        query = f"""INSERT INTO PokemonType VALUES({pokemon_id}, "{pokemon_type}")"""
+        query = f"""INSERT IGNORE INTO PokemonType VALUES({pokemon_id}, "{pokemon_type}")"""
         cursor.execute(query)
         connection.commit()

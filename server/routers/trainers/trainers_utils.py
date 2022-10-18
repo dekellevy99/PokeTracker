@@ -16,6 +16,7 @@ connection = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor
 )
 
+
 def validate_trainer_name(trainer_name):
     valid_trainers_names = queries.get_all_trainers_names()
     if trainer_name not in valid_trainers_names:
@@ -25,6 +26,7 @@ def validate_trainer_name(trainer_name):
                 "error": "invalid trainer name."
             }
         )
+
 
 def validate_pokemon_name(pokemon_name):
     valid_pokemon_names = queries.get_all_pokemon_names()
@@ -102,6 +104,3 @@ def get_evolve_pokemon(pokemon_name: string):
                 "error": "can't evolve pokemon."
             })
     return evolve_pokemon
-
-
-print(evolve_pokemon_for_trainer("dekel", "pidgeot"))

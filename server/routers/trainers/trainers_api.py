@@ -11,7 +11,6 @@ router = APIRouter()
 @router.get('/trainers/{trainer_name}/pokemons')
 async def get_pokemons_of_trainer(trainer_name):
     trainers_utils.validate_trainer_name(trainer_name)
-    Response.headers["Content-Type"] = "application/json"
     trainer_pokemons = queries.find_roster(trainer_name)
     return {"pokemons": trainer_pokemons}
 
@@ -21,8 +20,7 @@ async def add_new_trainer(request: Request, response: Response):
     req = await request.json()
     try:
         trainers_utils.insert_new_trainer(req["name"], req["town"])
-        Response.headers["Location"] = f"/trainers/{req['name']}"
-        Response.headers["Content-Type"] = "application/json"
+        response.headers["Location"] = f"/trainers/{req['name']}"
         response.status_code = status.HTTP_201_CREATED
         return {
             "name": req["name"],
