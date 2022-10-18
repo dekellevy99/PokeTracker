@@ -144,7 +144,7 @@ def insert_trainer_record(name, town):
         connection.commit()
 
 
-def evolve_pokemon_of_trainer(trainer_name, pokemon_id, evolve_pokemon_id)
+def evolve_pokemon_of_trainer(trainer_name, pokemon_id, evolve_pokemon_id):
     with connection.cursor() as cursor:
         query = f"""UPDATE PokemonTrainer
                     SET pokemonId = {evolve_pokemon_id}

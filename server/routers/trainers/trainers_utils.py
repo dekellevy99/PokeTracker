@@ -4,15 +4,6 @@ import requests
 from Queries import queries
 from fastapi import HTTPException, status
 
-connection = pymysql.connect(
-    host="localhost",
-    user="root",
-    password="",
-    db="poketrackerdb",
-    charset="utf8",
-    cursorclass=pymysql.cursors.DictCursor
-)
-
 
 def validate_trainer_name(trainer_name):
     valid_trainers_names = queries.get_all_trainers_names()
@@ -36,48 +27,11 @@ def validate_pokemon_name(pokemon_name):
         )
 
 
-def insert_new_trainer(name: string, town: string):
-    with connection.cursor() as cursor:
-        query: string = f"""INSERT INTO trainer (Name, Town)
-                            VALUES ('{name}', '{town}');"""
-        cursor.execute(query)
-        connection.commit()
-
-
-def get_pokemon_id_by_name(pokemon_name: string):
-    with connection.cursor() as cursor:
-        query: string = f"""SELECT id
-                            FROM Pokemon
-                            WHERE name = "{pokemon_name}";"""
-        cursor.execute(query)
-        result = cursor.fetchone()['id']
-        return result
-
-
-def delete_pokemon_from_trainer(trainer_name: string, pokemon_id: int):
-    with connection.cursor() as cursor:
-        query: string = f"""DELETE FROM PokemonTrainer
-                            WHERE 
-                            trainername = "{trainer_name}" AND pokemonId = {pokemon_id};"""
-        cursor.execute(query)
-        connection.commit()
-
-
 def evolve_pokemon_for_trainer(trainer_name: string, pokemon_name: string):
-    pokemon_id = get_pokemon_id_by_name(pokemon_name)
+    pokemon_id = queries.get_pokemon_id_by_name(pokemon_name)
     evolve_pokemon_name = get_evolve_pokemon(pokemon_name)
-    evolve_pokemon_id = get_pokemon_id_by_name(evolve_pokemon_name)
-    update_pokemon_for_evolved(trainer_name, pokemon_id, evolve_pokemon_id)
-
-
-def update_pokemon_for_evolved(trainer_name: string, pokemon_id: int, evolve_pokemon_id: int):
-    with connection.cursor() as cursor:
-        query: string = f"""UPDATE PokemonTrainer
-                            SET pokemonId = {evolve_pokemon_id}
-                            WHERE 
-                            trainername = "{trainer_name}" AND pokemonId = {pokemon_id};"""
-        cursor.execute(query)
-        connection.commit()
+    evolve_pokemon_id = queries.get_pokemon_id_by_name(evolve_pokemon_name)
+    queries.evolve_pokemon_of_trainer(trainer_name, pokemon_id, evolve_pokemon_id)
 
 
 def get_evolve_pokemon(pokemon_name: string):

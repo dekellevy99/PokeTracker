@@ -19,7 +19,7 @@ async def get_pokemons_of_trainer(trainer_name):
 async def add_new_trainer(request: Request, response: Response):
     req = await request.json()
     try:
-        trainers_utils.insert_new_trainer(req["name"], req["town"])
+        queries.insert_trainer_record(req["name"], req["town"])
         response.headers["Location"] = f"/trainers/{req['name']}"
         response.status_code = status.HTTP_201_CREATED
         return {
@@ -44,12 +44,12 @@ async def add_new_trainer(request: Request, response: Response):
 async def delete_pokemon_from_trainer(trainer_name, pokemon_name, response: Response):
     trainers_utils.validate_trainer_name(trainer_name)
     trainers_utils.validate_pokemon_name(pokemon_name)
-    pokemon_id = trainers_utils.get_pokemon_id_by_name(pokemon_name)
-    trainers_utils.delete_pokemon_from_trainer(trainer_name, pokemon_id)
+    pokemon_id = queries.get_pokemon_id_by_name(pokemon_name)
+    queries.delete_pokemon_from_trainer(trainer_name, pokemon_id)
     response.status_code = status.HTTP_204_NO_CONTENT
 
 
-@router.put('/trainer/{trainer_name}/pokemon/{pokemon_name}')
+@router.put('/trainers/{trainer_name}/pokemon/{pokemon_name}')
 async def evolve_pokemon_for_trainer(trainer_name, pokemon_name):
     trainers_utils.validate_trainer_name(trainer_name)
     trainers_utils.validate_pokemon_name(pokemon_name)
