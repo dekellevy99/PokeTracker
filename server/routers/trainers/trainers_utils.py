@@ -1,5 +1,4 @@
 import string
-import pymysql
 import requests
 from Queries import queries
 from fastapi import HTTPException, status
@@ -35,8 +34,7 @@ def evolve_pokemon_for_trainer(trainer_name: string, pokemon_name: string):
 
 
 def get_evolve_pokemon(pokemon_name: string):
-    data = requests.get(
-        f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
+    data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
     species_url: string = data['species']['url']
     data = requests.get(species_url).json()
     evolution_chain_url: string = data['evolution_chain']['url']
