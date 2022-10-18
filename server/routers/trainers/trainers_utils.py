@@ -1,7 +1,4 @@
-from email.policy import HTTP
 import string
-from telnetlib import STATUS
-from urllib import request
 import pymysql
 import requests
 from Queries import queries
