@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 from . import pokemons_utils
 from Queries import queries
 
@@ -26,6 +26,7 @@ def get_pokemon_by_name(pokemon_name):
 
 
 @router.post("/pokemons/{pokemon_name}")
-def add_pokemon(pokemon_name):
+def add_pokemon(pokemon_name, response: Response):
     pokemon_data = pokemons_utils.add_pokemon(pokemon_name)
+    response.headers["Location"] = f"/pokemons/{pokemon_name}"
     return pokemon_data
