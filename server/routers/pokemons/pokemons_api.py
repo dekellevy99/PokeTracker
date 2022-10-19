@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Response
+from telnetlib import STATUS
+from fastapi import APIRouter, Response, status
 from . import pokemons_utils
 from Queries import queries
 
@@ -31,4 +32,5 @@ def get_pokemon_by_name(pokemon_name):
 def add_pokemon(pokemon_name, response: Response):
     pokemon_data = pokemons_utils.add_pokemon(pokemon_name)
     response.headers["Location"] = f"/pokemons/{pokemon_name}"
+    response.status_code = status.HTTP_201_CREATED
     return pokemon_data
