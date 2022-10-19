@@ -11,5 +11,6 @@ app.include_router(trainers_api.router)
 def root():
     return "server is running"
 
-if __name__ == "__main__":
-    uvicorn.run("server:app", host="localhost", port=8000, reload=True)
+
+# if __name__ == "__main__":
+#     uvicorn.run("server:app", host="localhost", port=8000, reload=True)
