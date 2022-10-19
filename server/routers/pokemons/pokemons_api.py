@@ -2,7 +2,9 @@ from fastapi import APIRouter, Response
 from . import pokemons_utils
 from Queries import queries
 
+
 router = APIRouter()
+
 
 @router.get("/pokemons/{pokemon_name}/trainers")
 def get_trainers_of_pokemon(pokemon_name):
