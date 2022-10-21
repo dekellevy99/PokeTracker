@@ -1,11 +1,11 @@
 import string
 import requests
-from Queries import queries
 from fastapi import HTTPException, status
+from DB.db_manager.db_manager import db_manager
 
 
 def validate_trainer_name(trainer_name):
-    valid_trainers_names = queries.get_all_trainers_names()
+    valid_trainers_names = db_manager.get_all_trainers_names()
     if trainer_name not in valid_trainers_names:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -16,7 +16,7 @@ def validate_trainer_name(trainer_name):
 
 
 def validate_pokemon_name(pokemon_name):
-    valid_pokemon_names = queries.get_all_pokemon_names()
+    valid_pokemon_names = db_manager.get_all_pokemon_names()
     if pokemon_name not in valid_pokemon_names:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -27,10 +27,10 @@ def validate_pokemon_name(pokemon_name):
 
 
 def evolve_pokemon_for_trainer(trainer_name: string, pokemon_name: string):
-    pokemon_id = queries.get_pokemon_id_by_name(pokemon_name)
+    pokemon_id = db_manager.get_pokemon_id_by_name(pokemon_name)
     evolve_pokemon_name = get_evolve_pokemon(pokemon_name)
-    evolve_pokemon_id = queries.get_pokemon_id_by_name(evolve_pokemon_name)
-    queries.evolve_pokemon_of_trainer(trainer_name, pokemon_id, evolve_pokemon_id)
+    evolve_pokemon_id = db_manager.get_pokemon_id_by_name(evolve_pokemon_name)
+    db_manager.evolve_pokemon_of_trainer(trainer_name, pokemon_id, evolve_pokemon_id)
 
 
 def get_evolve_pokemon(pokemon_name: string):

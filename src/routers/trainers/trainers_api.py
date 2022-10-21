@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from fastapi import Request, Response
 from . import trainers_utils
 from pymysql.err import IntegrityError
-from Queries import queries
+from DB.db_manager.db_manager import db_manager
 
 
 router = APIRouter()
@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get('/trainers/{trainer_name}/pokemons')
 async def get_pokemons_of_trainer(trainer_name):
     trainers_utils.validate_trainer_name(trainer_name)
-    trainer_pokemons = queries.find_roster(trainer_name)
+    trainer_pokemons = db_manager.find_roster(trainer_name)
     return {"pokemons": trainer_pokemons}
 
 
@@ -19,7 +19,7 @@ async def get_pokemons_of_trainer(trainer_name):
 async def add_new_trainer(request: Request, response: Response):
     req = await request.json()
     try:
-        queries.insert_trainer_record(req["name"], req["town"])
+        db_manager.insert_trainer_record(req["name"], req["town"])
         response.headers["Location"] = f"/trainers/{req['name']}"
         response.status_code = status.HTTP_201_CREATED
         return {
@@ -44,8 +44,8 @@ async def add_new_trainer(request: Request, response: Response):
 async def delete_pokemon_from_trainer(trainer_name, pokemon_name, response: Response):
     trainers_utils.validate_trainer_name(trainer_name)
     trainers_utils.validate_pokemon_name(pokemon_name)
-    pokemon_id = queries.get_pokemon_id_by_name(pokemon_name)
-    queries.delete_pokemon_from_trainer(trainer_name, pokemon_id)
+    pokemon_id = db_manager.get_pokemon_id_by_name(pokemon_name)
+    db_manager.delete_pokemon_from_trainer(trainer_name, pokemon_id)
     response.status_code = status.HTTP_204_NO_CONTENT
 
 
