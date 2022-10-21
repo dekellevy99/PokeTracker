@@ -26,10 +26,8 @@ def validate_pokemon_type(pokemon_type):
 
 
 def update_pokemon_type(pokemon_id, pokemon_name):
-    data = requests.get(
-        f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
-    pokemon_types = [pokemon_type["type"]["name"]
-                     for pokemon_type in data["types"]]
+    data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
+    pokemon_types = [pokemon_type["type"]["name"] for pokemon_type in data["types"]]
     for type in pokemon_types:
         db_manager.insert_type_record(type)
         db_manager.insert_pokemon_type_record(pokemon_id, type)
@@ -44,10 +42,8 @@ def get_pokemon_data(pokemon_name):
 
 
 def add_pokemon(pokemon_name):
-    data = requests.get(
-        f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
-    pokemon = {"name": pokemon_name,
-               "height": data["height"], "weight": data["weight"]}
+    data = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}").json()
+    pokemon = {"name": pokemon_name, "height": data["height"], "weight": data["weight"]}
     db_manager.insert_pokemon_record(pokemon)
     pokemon["id"] = db_manager.get_pokemon_id_by_name(pokemon_name)
     pokemon_types = update_pokemon_type(pokemon["id"], pokemon_name)
